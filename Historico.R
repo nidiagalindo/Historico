@@ -32,3 +32,23 @@ print(cantidad_nulos)
 cantidad_nulos_por_columna <- colSums(is.na(df.reportes))
 print("Cantidad de datos nulos por columna en el DataFrame:")
 print(cantidad_nulos_por_columna)
+df.reportes.alcaldia <- complete.cases(df.reportes$alcaldia)
+df.reportes.clean <- df.reportes[df.reportes.alcaldia,]
+data.frame('NA' = apply(X = is.na(df.reportes.clean), MARGIN = 2, FUN = sum))
+# Analisis datos nulos
+data.frame('NA' = apply(X = is.na(df.reportes), MARGIN = 2, FUN = sum))
+df.reportes.clean <- df.reportes[df.reportes.alcaldia,]
+data.frame('NA' = apply(X = is.na(df.reportes.clean), MARGIN = 2, FUN = sum))
+# Analisis exploratorio
+summary(df.reportes.clean)
+# Cambiar caracter a factor
+df.reportes.clean$alcaldia  <- as.factor(df.reportes.clean$alcaldia)
+summary(df.reportes.clean)
+# Alcaldia
+library(ggplot2)
+freq <- table(df.reportes.clean$alcaldia)
+transform(freq,
+          rel.freq=prop.table(Freq))
+ggplot(df.reportes.clean, aes(x = alcaldia)) +
+  geom_bar()
+df.con.num <- select(df.reportes.clean, c("alcaldia"))
